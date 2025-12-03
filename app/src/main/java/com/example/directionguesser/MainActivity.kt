@@ -17,14 +17,19 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.content.Intent
+import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 
 class MainActivity : AppCompatActivity() {
 
     var username = "guest"
+    lateinit var usernameEditText : EditText
+    var firebase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,8 +39,16 @@ class MainActivity : AppCompatActivity() {
 
         val playButton = findViewById<Button>(R.id.play)
         val scoreButton = findViewById<Button>(R.id.scores)
+        val usernameEditText = findViewById<EditText>(R.id.username)
 
         playButton.setOnClickListener {
+            username = usernameEditText.text.toString()
+            if (username != "guest") {
+                var reference: DatabaseReference = firebase.getReference(username)
+
+                // do something, or maybe do this in gameactivity
+            }
+
             val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }

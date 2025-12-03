@@ -27,7 +27,7 @@
         android:layout_marginTop="232dp"
         android:gravity="center"
         android:hint="Enter Username"
-        android:inputType="numberDecimal"
+        android:inputType="textPersonName"
 
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"

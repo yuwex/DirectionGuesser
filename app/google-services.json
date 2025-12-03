@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "29485933984",
+    "project_id": "directionguesser",
+    "storage_bucket": "directionguesser.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29485933984:android:85d2ce1b151c3b42a530c5",
+        "android_client_info": {
+          "package_name": "com.example.directionguesser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCazpSA1cFTuEMZIJe5WTkbfNmhYBc0JyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
