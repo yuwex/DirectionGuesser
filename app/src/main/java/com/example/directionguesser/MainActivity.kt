@@ -27,6 +27,8 @@ import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
 
+    // store per-username permissions as local persistent data?
+
     var username = "guest"
     lateinit var usernameEditText : EditText
     var firebase = FirebaseDatabase.getInstance()

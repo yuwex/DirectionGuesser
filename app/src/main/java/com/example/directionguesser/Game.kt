@@ -12,11 +12,9 @@ class Game {
     private var maxRounds = 0
     private var currentRound = 0
     private var landmarks = ArrayList<Landmark>()
-
     private var gameState = GameState.NEW
 
     constructor() {
-
     }
 
     fun newGame(rounds: Int, landmarks: ArrayList<Landmark>) {
