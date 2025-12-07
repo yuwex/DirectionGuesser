@@ -15,6 +15,18 @@ class Game {
     private var gameState = GameState.NEW
 
     constructor() {
+        val iribeCenter = Location("dummyprovider")
+        iribeCenter.latitude = 38.98912699513576
+        iribeCenter.longitude = -76.93637753412865
+
+        val statueLiberty = Location("dummyprovider")
+        statueLiberty.latitude = 40.68947165945934
+        statueLiberty.longitude = -74.04474627898335
+
+
+        this.landmarks = arrayListOf(
+            Landmark("Statue of Liberty", "New York", statueLiberty),
+            Landmark("Iribe", "College Park", iribeCenter))
     }
 
     fun newGame(rounds: Int, landmarks: ArrayList<Landmark>) {
@@ -68,6 +80,10 @@ class Game {
         return 1 - diff / 180f
     }
 
+    fun getLandmarks() : ArrayList<Landmark> {
+        return this.landmarks
+    }
+
     private fun circleMod(a: Float): Float {
         return a - floor(a / 360f) * 360f
     }
@@ -75,3 +91,4 @@ class Game {
 
 enum class GameState { NEW, PLAYING, OVER }
 data class Landmark(val name: String, val city: String, val location: Location)
+data class Score(val username: String? = null, val score : Float? = null)
