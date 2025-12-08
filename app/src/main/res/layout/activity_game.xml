@@ -1,63 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/game"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/locationPicture"
+            android:layout_width="250sp"
+            android:layout_height="250sp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:layout_marginTop="20dp" />
+
+        <ImageView
+            android:id="@+id/compass"
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:src="@drawable/compass"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/guess"
+            android:layout_width="148dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="Guess Direction"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Compass"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.278" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="8dp">
 
-    <ImageView
-        android:id="@+id/compass"
-        android:layout_width="250sp"
-        android:layout_height="250sp"
-        android:src="@drawable/compass"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="6dp">
 
-    <Button
-        android:id="@+id/home"
-        android:layout_width="118dp"
-        android:layout_height="61dp"
-        android:layout_below="@id/compass"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="652dp"
-        android:padding="10dp"
-        android:text="Home"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/home"
+                android:layout_width="118dp"
+                android:layout_height="61dp"
+                android:text="Home"
+                android:textSize="20sp"
+                android:padding="10dp" />
 
-    <Button
-        android:id="@+id/scores"
-        android:layout_width="118dp"
-        android:layout_height="61dp"
-        android:layout_below="@id/compass"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="652dp"
-        android:padding="10dp"
-        android:text="Scores"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/scores"
+                android:layout_width="118dp"
+                android:layout_height="61dp"
+                android:text="Scores"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:layout_marginStart="20dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#F444" />
+
+    </LinearLayout>
+
+</LinearLayout>

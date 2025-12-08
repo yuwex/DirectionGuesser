@@ -2,6 +2,7 @@ package com.example.directionguesser
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.hardware.Sensor
@@ -13,11 +14,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.internal.ads.zzads
+import android.widget.LinearLayout
+
 
 class GameActivity : AppCompatActivity(), SensorEventListener  {
 
@@ -35,6 +43,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 
     lateinit var compassImage: ImageView
     var compassDegree = 0f;
+    private lateinit var adView : AdView
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +88,20 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 
         fusedLocationClient.lastLocation.addOnSuccessListener { l -> currentLocation = l }
 
+        handleAds()
 
+        val homeButton = findViewById<Button>(R.id.home)
+        val scoreButton = findViewById<Button>(R.id.scores)
+
+        scoreButton.setOnClickListener {
+            val intent = Intent(this, ScoreActivity::class.java)
+            startActivity(intent)
+        }
+
+        // we can save persistent data by keeping game state even after closing the app maybe?
+        homeButton.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
@@ -161,5 +184,21 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
         val acc = game.guess(50f, statueLiberty)
 
         Log.w("MainActivity", "Accuracy: $acc")
+    }
+
+    fun handleAds() {
+        adView = AdView( this )
+        var adSize = AdSize(AdSize.FULL_WIDTH, AdSize.AUTO_HEIGHT )
+        adView.setAdSize( adSize )
+        var adUnitId = "ca-app-pub-3940256099942544/6300978111"
+        adView.adUnitId = adUnitId
+        var builder = AdRequest.Builder( )
+        builder.addKeyword( "locations" ).addKeyword( "travel" ).addKeyword( "fun")
+        var adRequest = builder.build()
+
+        var adLayout = findViewById<LinearLayout>( R.id.ad_view )
+        adLayout.addView( adView )
+        adView.loadAd( adRequest )
+
     }
 }
