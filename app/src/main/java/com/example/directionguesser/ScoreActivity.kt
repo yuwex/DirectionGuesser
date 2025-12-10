@@ -8,9 +8,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.transition.Visibility
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
 
@@ -44,6 +46,7 @@ class ScoreActivity : AppCompatActivity() {
             val gridElement = inflater.inflate(R.layout.grid_location, scoresGrid, false)
             val landmarkTitle = gridElement.findViewById<TextView>(R.id.landmarkTitle)
             val landmarkHighScore = gridElement.findViewById<TextView>(R.id.landmarkHighScore)
+            val star = gridElement.findViewById<ImageView>(R.id.star)
 
             landmarkTitle.text = selectedName
             landmarkHighScore.text = "Loading..."
@@ -61,7 +64,8 @@ class ScoreActivity : AppCompatActivity() {
                     if (username == null || score == null) {
                         landmarkHighScore.text = "Error retrieving score."
                     } else if (username == MainActivity.username) {
-                        landmarkHighScore.text = "*$username: $score"
+                        landmarkHighScore.text = "$username: $score"
+                        star.visibility = View.VISIBLE
                     } else {
                         // Display the score (format: "User: 100")
                         landmarkHighScore.text = "$username: $score"
