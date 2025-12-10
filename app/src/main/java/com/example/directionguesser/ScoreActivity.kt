@@ -60,6 +60,8 @@ class ScoreActivity : AppCompatActivity() {
 
                     if (username == null || score == null) {
                         landmarkHighScore.text = "Error retrieving score."
+                    } else if (username == MainActivity.username) {
+                        landmarkHighScore.text = "*$username: $score"
                     } else {
                         // Display the score (format: "User: 100")
                         landmarkHighScore.text = "$username: $score"
