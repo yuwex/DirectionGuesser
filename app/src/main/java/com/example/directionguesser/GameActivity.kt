@@ -25,6 +25,10 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.internal.ads.zzads
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
+import java.text.NumberFormat
 
 
 class GameActivity : AppCompatActivity(), SensorEventListener  {
@@ -39,6 +43,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
     var accelerometerCoordinates = FloatArray(3)
     var magnetometerCoordinates = FloatArray(3)
 
+    lateinit var guessButton: Button
+    lateinit var locationText: TextView
+    lateinit var locationImg: ImageView
+
     var game = Game()
 
     lateinit var compassImage: ImageView
@@ -49,7 +57,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        testGame()
+//        testGame()
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         super.onCreate(savedInstanceState)
@@ -92,10 +100,28 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 
         val homeButton = findViewById<Button>(R.id.home)
         val scoreButton = findViewById<Button>(R.id.scores)
+        guessButton = findViewById<Button>(R.id.guess)
+        locationImg = findViewById<ImageView>(R.id.locationPicture)
+        locationText = findViewById<TextView>(R.id.locationText)
 
         scoreButton.setOnClickListener {
             val intent = Intent(this, ScoreActivity::class.java)
             startActivity(intent)
+        }
+
+        game.newGame(3)
+        updateView()
+        guessButton.setOnClickListener {
+            var direction = Math.toDegrees(compassDegree.toDouble()).toFloat()
+            if (direction < 0) direction += 360f
+
+            val score = game.guess(direction, currentLocation!!)
+
+            if (score != null) {
+                Toast.makeText(this, "Score: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
+            }
+
+            updateView()
         }
 
         // we can save persistent data by keeping game state even after closing the app maybe?
@@ -103,6 +129,18 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
             finish()
         }
     }
+
+    @SuppressLint("SetTextI18n")
+    fun updateView() {
+        val landmark = game.getCurrentLandmark()
+        if (landmark != null) {
+            locationImg.setImageResource(landmark.photo)
+            locationText.text = "${landmark.name}, ${landmark.city}"
+        } else {
+            guessButton.isVisible = false
+        }
+    }
+
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
@@ -165,26 +203,26 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
         sensorManager.unregisterListener(this)
     }
 
-    fun testGame() {
-
-        val statueLiberty = Location("dummyprovider")
-        statueLiberty.latitude = 40.68947165945934
-        statueLiberty.longitude = -74.04474627898335
-
-        val iribeCenter = Location("dummyprovider")
-        iribeCenter.latitude = 38.98912699513576
-        iribeCenter.longitude = -76.93637753412865
-
-        game.newGame(1, arrayListOf(Landmark("Statue of Liberty", "New York", iribeCenter, "")))
-
-
-
-        Log.w("MainActivity", "" + game.getCurrentLandmark())
-
-        val acc = game.guess(50f, statueLiberty)
-
-        Log.w("MainActivity", "Accuracy: $acc")
-    }
+//    fun testGame() {
+//
+//        val statueLiberty = Location("dummyprovider")
+//        statueLiberty.latitude = 40.68947165945934
+//        statueLiberty.longitude = -74.04474627898335
+//
+//        val iribeCenter = Location("dummyprovider")
+//        iribeCenter.latitude = 38.98912699513576
+//        iribeCenter.longitude = -76.93637753412865
+//
+//        game.newGame(1, arrayListOf(Landmark("Statue of Liberty", "New York", iribeCenter, "")))
+//
+//
+//
+//        Log.w("MainActivity", "" + game.getCurrentLandmark())
+//
+//        val acc = game.guess(50f, statueLiberty)
+//
+//        Log.w("MainActivity", "Accuracy: $acc")
+//    }
 
     fun handleAds() {
         adView = AdView( this )
