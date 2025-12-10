@@ -28,6 +28,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.getValue
 import java.text.NumberFormat
 
 
@@ -119,6 +121,17 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 
             if (score != null) {
                 Toast.makeText(this, "Score: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
+
+                val firebase = FirebaseDatabase.getInstance()
+                val reference = firebase.getReference(game.getCurrentLandmark()!!.name)
+                reference.get().addOnSuccessListener { snapshot ->
+                    val highScore = snapshot.getValue<Score>()
+
+                    if (!snapshot.exists() || score > highScore!!.score!!) {
+                        val newHighScore = Score(MainActivity.username, score)
+                        reference.setValue(newHighScore)
+                    }
+                }
             }
 
             updateView()

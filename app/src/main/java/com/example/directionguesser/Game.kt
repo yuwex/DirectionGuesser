@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.SphericalUtil
 import kotlin.math.absoluteValue
 import kotlin.math.floor
+import kotlin.math.round
 
 class Game {
     private var maxRounds = 0
@@ -82,7 +83,7 @@ class Game {
             gameState = GameState.OVER
         }
 
-        return 1 - diff / 180f
+        return round((1 - diff / 180f) * 100) / 100
     }
 
     fun getLandmarks() : ArrayList<Landmark> {
