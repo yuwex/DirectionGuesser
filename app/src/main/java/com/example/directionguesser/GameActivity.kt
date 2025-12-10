@@ -27,6 +27,7 @@ import com.google.android.gms.internal.ads.zzads
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
@@ -120,8 +121,24 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
             val score = game.guess(direction, currentLocation!!)
 
             if (score != null) {
+                val landmark: Landmark = game.getCurrentLandmark()!!
+                Toast.makeText(this, "Accuracy: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
+
+                // Local saving
+                val keyLandmarkHS = "hs_${landmark.name}"
+                val keyLandmarkPlays = "plays_${landmark.name}"
+                val pref = this.getSharedPreferences("${this.packageName}_preferences", MODE_PRIVATE)
+                val bestLevelScore = pref.getFloat(keyLandmarkHS, 0f)
+                if (score > bestLevelScore) {
+                    pref.edit(commit=true) {
+                        putFloat(keyLandmarkHS, score)
+                        putInt(keyLandmarkPlays, pref.getInt(keyLandmarkPlays, 0) + 1)
+                    }
+                }
+
                 Toast.makeText(this, "Score: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
 
+                // Firebase saving
                 val firebase = FirebaseDatabase.getInstance()
                 val reference = firebase.getReference(game.getCurrentLandmark()!!.name)
                 reference.get().addOnSuccessListener { snapshot ->
