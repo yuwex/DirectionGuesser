@@ -29,10 +29,10 @@ class ScoreActivity : AppCompatActivity() {
         val inflater = LayoutInflater.from(this)
         val game = Game()
         val firebase = FirebaseDatabase.getInstance()
-        val landmarks = game.getLandmarks()
+        val defaultLandmarks = game.getDefaultLandmarks()
 
         val names = ArrayList<String>()
-        landmarks.forEach { (name, _, _, _) -> names.add(name) }
+        defaultLandmarks.forEach { (name, _, _) -> names.add(name) }
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, names)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
