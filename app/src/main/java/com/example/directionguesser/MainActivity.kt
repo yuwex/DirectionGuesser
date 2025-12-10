@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     // store per-username permissions as local persistent data?
 
-    var username = "guest"
     lateinit var usernameEditText : EditText
     var firebase = FirebaseDatabase.getInstance()
 
@@ -59,6 +58,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ScoreActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    companion object {
+        var username = "guest"
     }
 
 

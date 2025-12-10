@@ -25,8 +25,8 @@ class Game {
 
 
         this.landmarks = arrayListOf(
-            Landmark("Statue of Liberty", "New York", statueLiberty),
-            Landmark("Iribe", "College Park", iribeCenter))
+            Landmark("Statue of Liberty", "New York", statueLiberty, ""),
+            Landmark("Iribe", "College Park", iribeCenter, ""))
     }
 
     fun newGame(rounds: Int, landmarks: ArrayList<Landmark>) {
@@ -90,5 +90,5 @@ class Game {
 }
 
 enum class GameState { NEW, PLAYING, OVER }
-data class Landmark(val name: String, val city: String, val location: Location)
+data class Landmark(val name: String, val city: String, val location: Location, val imageSrc: String)
 data class Score(val username: String? = null, val score : Float? = null)

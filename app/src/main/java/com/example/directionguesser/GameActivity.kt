@@ -175,7 +175,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
         iribeCenter.latitude = 38.98912699513576
         iribeCenter.longitude = -76.93637753412865
 
-        game.newGame(1, arrayListOf(Landmark("Statue of Liberty", "New York", iribeCenter)))
+        game.newGame(1, arrayListOf(Landmark("Statue of Liberty", "New York", iribeCenter, "")))
 
 
 
