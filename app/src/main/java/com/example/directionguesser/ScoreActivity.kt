@@ -2,6 +2,7 @@ package com.example.directionguesser
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -46,6 +47,8 @@ class ScoreActivity : AppCompatActivity() {
             val gridElement = inflater.inflate(R.layout.grid_location, scoresGrid, false)
             val landmarkTitle = gridElement.findViewById<TextView>(R.id.landmarkTitle)
             val landmarkHighScore = gridElement.findViewById<TextView>(R.id.landmarkHighScore)
+            val yourHighScore = gridElement.findViewById<TextView>(R.id.landmarkYourScore)
+            val yourPlays = gridElement.findViewById<TextView>(R.id.landmarkYourPlays)
             val star = gridElement.findViewById<ImageView>(R.id.star)
 
             landmarkTitle.text = selectedName
@@ -55,7 +58,7 @@ class ScoreActivity : AppCompatActivity() {
             val reference = firebase.getReference(selectedName)
             reference.get().addOnSuccessListener { snapshot ->
                 if (!snapshot.exists()) {
-                    landmarkHighScore.text = "No scores yet!"
+                    landmarkHighScore.text = "No firebase scores yet!"
                 } else {
                     val scoreData = snapshot.getValue<Score>()
                     val username = scoreData?.username
@@ -64,15 +67,34 @@ class ScoreActivity : AppCompatActivity() {
                     if (username == null || score == null) {
                         landmarkHighScore.text = "Error retrieving score."
                     } else if (username == MainActivity.username) {
-                        landmarkHighScore.text = "$username: $score"
+                        landmarkHighScore.text = "Best score is $username with ${formatScore(score)}"
                         star.visibility = View.VISIBLE
                     } else {
                         // Display the score (format: "User: 100")
-                        landmarkHighScore.text = "$username: $score"
+                        landmarkHighScore.text = "$username: ${formatScore(score)}"
                     }
                 }
             }.addOnFailureListener {
                 landmarkHighScore.text = "Connection Error"
+            }
+
+            val keyLandmarkHS = "hs_${selectedName}"
+            val keyLandmarkPlays = "plays_${selectedName}"
+            Log.w("MainActivity", "Getting keys: $keyLandmarkHS, $keyLandmarkPlays")
+            val pref = this.getSharedPreferences("${this.packageName}_preferences", MODE_PRIVATE)
+            val localHs = pref.getFloat(keyLandmarkHS, -1f)
+            val localPlays = pref.getInt(keyLandmarkPlays, 0)
+
+            if (localPlays == 0) {
+                yourHighScore.text = ""
+                yourPlays.text = ""
+            } else {
+                yourHighScore.text = "Your best score is ${formatScore(localHs)}"
+                yourPlays.text = "You've played $selectedName $localPlays time"
+                if (localPlays > 1) {
+                    yourPlays.text = "${yourPlays.text}s"
+                }
+
             }
 
             scoresGrid.addView(gridElement)
@@ -91,5 +113,9 @@ class ScoreActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
+    }
+
+    fun formatScore(score: Float) : String {
+        return "${(score * 10000).toInt()/100}%"
     }
 }
