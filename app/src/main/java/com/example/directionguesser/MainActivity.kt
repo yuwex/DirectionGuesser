@@ -63,6 +63,4 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var username = "guest"
     }
-
-
 }

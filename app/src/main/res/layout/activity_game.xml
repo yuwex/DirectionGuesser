@@ -43,6 +43,20 @@
             android:text="Guess Direction"
             android:textSize="20sp" />
 
+        <ProgressBar
+            android:id="@+id/scoreBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_marginTop="15dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:scaleY="5"
+            android:progressTint="@color/darkBlue"
+            android:progressBackgroundTint="@color/lightBlue"
+            android:progress="0"
+            android:max="100"
+            android:indeterminate="false"
+            />
+
     </LinearLayout>
 
     <LinearLayout
