@@ -1,6 +1,7 @@
 package com.example.directionguesser
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -12,6 +13,7 @@ import android.hardware.SensorManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.Button
@@ -25,6 +27,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.internal.ads.zzads
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.edit
@@ -32,6 +35,8 @@ import androidx.core.view.isVisible
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
 import java.text.NumberFormat
+import kotlin.math.max
+import kotlin.math.min
 
 
 class GameActivity : AppCompatActivity(), SensorEventListener  {
@@ -124,10 +129,18 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
             if (score != null && landmark != null) {
                 Toast.makeText(this, "Accuracy: ${game.formatScore(score)}", Toast.LENGTH_SHORT).show()
 
+                val progressBar = findViewById<ProgressBar>(R.id.scoreBar)
+                val animation = ObjectAnimator.ofInt(progressBar,
+                    "progress", progressBar.progress, (score * 100).toInt())
+                animation.duration = 100
+                animation.interpolator = AccelerateInterpolator()
+                animation.start()
+
+                // Toast.makeText(this, "Accuracy: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
+
                 // Local saving
                 val keyLandmarkHS = "hs_${landmark.name}"
                 val keyLandmarkPlays = "plays_${landmark.name}"
-                Log.w("MainActivity", "keyHS=$keyLandmarkHS, keyPlays=$keyLandmarkPlays")
                 val pref = this.getSharedPreferences("${this.packageName}_preferences", MODE_PRIVATE)
                 val bestLevelScore = pref.getFloat(keyLandmarkHS, 0f)
                 pref.edit(commit=true) {
