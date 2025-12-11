@@ -123,10 +123,14 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
             var direction = Math.toDegrees(compassDegree.toDouble()).toFloat()
             if (direction < 0) direction += 360f
 
-            val score = game.guess(direction, currentLocation!!)
             val landmark = game.getCurrentLandmark()
+            val score = game.guess(direction, currentLocation!!)
+
+            Log.w("MainActivity", "Got click with landmark ${landmark?.name}")
 
             if (score != null && landmark != null) {
+                Log.w("MainActivity", "Processing click. Accuracy: ${game.formatScore(score)}")
+
                 Toast.makeText(this, "Accuracy: ${game.formatScore(score)}", Toast.LENGTH_SHORT).show()
 
                 val progressBar = findViewById<ProgressBar>(R.id.scoreBar)
@@ -152,7 +156,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 
                 // Firebase saving
                 val firebase = FirebaseDatabase.getInstance()
-                val reference = firebase.getReference(game.getCurrentLandmark()!!.name)
+                val reference = firebase.getReference(landmark.name)
                 reference.get().addOnSuccessListener { snapshot ->
                     val highScore = snapshot.getValue<Score>()
 

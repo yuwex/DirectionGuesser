@@ -60,7 +60,7 @@ class Game {
 
         val targetLoc = getCurrentLandmark()!!.location
 
-        Log.w("MainActivity", "Src: ${location.latitude}, ${location.longitude}, Dest: $targetLoc")
+//        Log.w("MainActivity", "Src: ${location.latitude}, ${location.longitude}, Dest: $targetLoc")
 
         var targetDirection = SphericalUtil.computeHeading(
             LatLng(location.latitude, location.longitude),
@@ -71,11 +71,11 @@ class Game {
             targetDirection += 360f
         }
 
-        Log.w("MainActivity", "Direction: $direction Target Direction: $targetDirection")
+//        Log.w("MainActivity", "Direction: $direction Target Direction: $targetDirection")
 
         val diff = ((targetDirection - direction + 540f) % 360f - 180f).absoluteValue
 
-        Log.w("MainActivity", "Diff: $diff, score: ${1 - diff / 180f}")
+//        Log.w("MainActivity", "Diff: $diff, score: ${1 - diff / 180f}")
 
         currentRound += 1
 
