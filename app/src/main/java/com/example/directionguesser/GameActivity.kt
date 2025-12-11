@@ -119,24 +119,23 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
             if (direction < 0) direction += 360f
 
             val score = game.guess(direction, currentLocation!!)
+            val landmark = game.getCurrentLandmark()
 
-            if (score != null) {
-                val landmark: Landmark = game.getCurrentLandmark()!!
-                Toast.makeText(this, "Accuracy: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
+            if (score != null && landmark != null) {
+                Toast.makeText(this, "Accuracy: ${game.formatScore(score)}", Toast.LENGTH_SHORT).show()
 
                 // Local saving
                 val keyLandmarkHS = "hs_${landmark.name}"
                 val keyLandmarkPlays = "plays_${landmark.name}"
+                Log.w("MainActivity", "keyHS=$keyLandmarkHS, keyPlays=$keyLandmarkPlays")
                 val pref = this.getSharedPreferences("${this.packageName}_preferences", MODE_PRIVATE)
                 val bestLevelScore = pref.getFloat(keyLandmarkHS, 0f)
-                if (score > bestLevelScore) {
-                    pref.edit(commit=true) {
+                pref.edit(commit=true) {
+                    if (score > bestLevelScore) {
                         putFloat(keyLandmarkHS, score)
-                        putInt(keyLandmarkPlays, pref.getInt(keyLandmarkPlays, 0) + 1)
                     }
+                    putInt(keyLandmarkPlays, pref.getInt(keyLandmarkPlays, 0) + 1)
                 }
-
-                Toast.makeText(this, "Score: ${game.formatScore(score)}", Toast.LENGTH_LONG).show()
 
                 // Firebase saving
                 val firebase = FirebaseDatabase.getInstance()
@@ -199,7 +198,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 
             val rotateAnimation =
                 RotateAnimation(
-                    Math.toDegrees(compassDegree.toDouble()).toFloat(),
+                    Math.toDegrees(-compassDegree.toDouble()).toFloat(),
                     Math.toDegrees(orientation[0].toDouble()).toFloat(),
                     Animation.RELATIVE_TO_SELF,
                     0.5f,
@@ -217,7 +216,8 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
 //                "Azimuth: ${orientation[0]}, Pitch: ${orientation[1]}, Roll: ${orientation[2]}"
 //            )
 
-//            Log.w("MainActivity", "Location: $currentLocation")
+//            valw direction = Math.toDegrees(compassDegree.toDouble()).toFloat()
+//            Log.w("MainActivity", "Direction: $direction")
         }
     }
 
