@@ -26,12 +26,6 @@ import com.google.firebase.database.*
 
 
 class MainActivity : AppCompatActivity() {
-
-    // store per-username permissions as local persistent data?
-
-    lateinit var usernameEditText : EditText
-    var firebase = FirebaseDatabase.getInstance()
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -44,17 +38,12 @@ class MainActivity : AppCompatActivity() {
 
         playButton.setOnClickListener {
             username = usernameEditText.text.toString()
-            if (username != "guest") {
-                var reference: DatabaseReference = firebase.getReference(username)
-
-                // do something, or maybe do this in gameactivity
-            }
-
             val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }
 
         scoreButton.setOnClickListener {
+            username = usernameEditText.text.toString()
             val intent = Intent(this, ScoreActivity::class.java)
             startActivity(intent)
         }

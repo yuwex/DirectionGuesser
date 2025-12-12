@@ -54,6 +54,7 @@ dependencies {
 //    implementation(libs.maps.utils.ktx)
 //    implementation("com.google.maps.android:maps-ktx:5.2.1")
     implementation("com.google.maps.android:maps-utils-ktx:5.2.0")
+    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

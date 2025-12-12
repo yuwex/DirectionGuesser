@@ -11,6 +11,8 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
+import android.location.LocationManager
+import android.location.LocationRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.AccelerateInterpolator
@@ -32,6 +34,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.view.isVisible
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
 import java.text.NumberFormat
@@ -160,7 +165,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
                 reference.get().addOnSuccessListener { snapshot ->
                     val highScore = snapshot.getValue<Score>()
 
-                    if (!snapshot.exists() || score > highScore!!.score!!) {
+                    if (MainActivity.username != "guest" && (!snapshot.exists() || score > highScore!!.score!!)) {
                         val newHighScore = Score(MainActivity.username, score)
                         reference.setValue(newHighScore)
                     }
