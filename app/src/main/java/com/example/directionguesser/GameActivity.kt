@@ -129,6 +129,12 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
             if (direction < 0) direction += 360f
 
             val landmark = game.getCurrentLandmark()
+            if (currentLocation == null) {
+                currentLocation = Location("dummyprovider").apply {
+                    latitude = 0.0
+                    longitude = 0.0
+                }
+            }
             val score = game.guess(direction, currentLocation!!)
 
             Log.w("MainActivity", "Got click with landmark ${landmark?.name}")
