@@ -34,6 +34,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.view.isVisible
+import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
@@ -103,11 +104,15 @@ class GameActivity : AppCompatActivity(), SensorEventListener  {
                 ),
                 1001
             )
-
-            // TODO: Have to handle if the user says "NO"
         }
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { l -> currentLocation = l }
+//        fusedLocationClient.lastLocation.addOnSuccessListener { l -> currentLocation = l }
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnSuccessListener { l ->
+            Log.w("MainActivity", "Updating current location to $l")
+
+            currentLocation = l
+
+        }
 
         handleAds()
 

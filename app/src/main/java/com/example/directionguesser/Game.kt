@@ -19,13 +19,15 @@ class Game {
 
     constructor() {
         this.defaultLandmarks = arrayListOf(
-            Landmark("Statue of Liberty", "New York", LatLng(40.68947165945934, -74.04474627898335), R.drawable.statue_liberty),
-            Landmark("Iribe Center", "College Park", LatLng(38.98912699513576, -76.93637753412865), R.drawable.iribe),
+//            Landmark("Statue of Liberty", "New York", LatLng(40.68947165945934, -74.04474627898335), R.drawable.statue_liberty),
+//            Landmark("Iribe Center", "College Park", LatLng(38.98912699513576, -76.93637753412865), R.drawable.iribe),
             Landmark("Golden Gate Bridge", "San Francisco", LatLng(37.818496726, -122.473831438), R.drawable.gate_bridge),
-            Landmark("Grand Canyon", "Canyons Place", LatLng(36.2190382, -113.1609597), R.drawable.grand_canyon),
-            Landmark("Hoover Dam", "Boulder City", LatLng(36.0160633, -114.7378049), R.drawable.hoover_dam),
-            Landmark("Venice Beach", "Venice", LatLng(33.977100, -118.467575), R.drawable.venice_beach),
-            Landmark("Monument Valley", "Navajo County", LatLng(36.9833294, -110.0999996), R.drawable.monument_valley))
+            Landmark("Golden Gate Bridge", "San Francisco", LatLng(37.818496726, -122.473831438), R.drawable.gate_bridge),
+            Landmark("Golden Gate Bridge", "San Francisco", LatLng(37.818496726, -122.473831438), R.drawable.gate_bridge))
+//            Landmark("Grand Canyon", "Canyons Place", LatLng(36.2190382, -113.1609597), R.drawable.grand_canyon),
+//            Landmark("Hoover Dam", "Boulder City", LatLng(36.0160633, -114.7378049), R.drawable.hoover_dam),
+//            Landmark("Venice Beach", "Venice", LatLng(33.977100, -118.467575), R.drawable.venice_beach),
+//            Landmark("Monument Valley", "Navajo County", LatLng(36.9833294, -110.0999996), R.drawable.monument_valley))
     }
 
     fun newGame(rounds: Int) {
@@ -60,7 +62,7 @@ class Game {
 
         val targetLoc = getCurrentLandmark()!!.location
 
-//        Log.w("MainActivity", "Src: ${location.latitude}, ${location.longitude}, Dest: $targetLoc")
+        Log.w("MainActivity", "Src: ${location.latitude}, ${location.longitude}, Dest: $targetLoc")
 
         var targetDirection = SphericalUtil.computeHeading(
             LatLng(location.latitude, location.longitude),
